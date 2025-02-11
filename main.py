@@ -293,7 +293,7 @@ def save_article_to_file(
         return
 
     # Очистка названия файла от недопустимых символов
-    safe_topic = re.sub(r'[\\/*?:"<>|]', "_", topic)  # Заменяем запрещённые символы на "_"
+    safe_topic = re.sub(r'[\\/*?:"<>|, ]', "_", topic)  # Заменяем запрещённые символы на "_"
     filename = f"{safe_topic}.md"
     filepath = os.path.join(output_dir, filename)
 

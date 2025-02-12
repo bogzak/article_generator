@@ -5,6 +5,7 @@ import logging
 
 from gpt_client import GPTClient
 from summarizer import Summarizer
+from article_generator import ArticleGenerator
 
 
 logging.basicConfig(
@@ -13,43 +14,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-<<<<<<< HEAD
-# Инициализация клиента OpenAI
-CLIENT = OpenAI(
-    api_key="api_key"
-)
-
-# Константы для моделей
-MODEL_ADVANCED = "gpt-4o"  # Более продвинутая модель (для основной генерации)
-MODEL_CHEAPER = "gpt-3.5-turbo"  # Дешевле, используется для summary
-
-# Общие параметры генерации
-TEMPERATURE = 0.7
-SUMMARY_MAX_SENTENCES = 20
-
-
-class GPTClient:
-    """
-    Класс для общения с OpenAI GPT-моделью.
-    """
-    def __init__(self, model: str = MODEL_ADVANCED, temperature: float = TEMPERATURE):
-        self.model = model
-        self.temperature = temperature
-
-    def chat(self, context_messages, user_prompt):
-        """
-        Отправляет запрос к ChatCompletion.
-        """
-        messages = context_messages + [{"role": "user", "content": user_prompt}]
-        response = CLIENT.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            temperature=self.temperature
-        )
-        return response.choices[0].message.content.strip()
-
-=======
->>>>>>> f06fe7e (added gpt_client.py and GPTClient class in this module)
 
 # -------------------------------------------
 # КЛАСС ArticleGenerator
@@ -261,7 +225,7 @@ def main() -> None:
         logger.warning("No topics found in '%s'.", topics_file)
         return
 
-    advanced_client = GPTClient(model=MODEL_ADVANCED, temperature=TEMPERATURE)
+    advanced_client = GPTClient()
     # summarizer = Summarizer(model=MODEL_SUMMARIZER, temperature=TEMPERATURE)
     article_generator = ArticleGenerator(advanced_client)
 

@@ -4,6 +4,7 @@ import re
 import logging
 
 from gpt_client import GPTClient
+from summarizer import Summarizer
 
 
 logging.basicConfig(
@@ -49,51 +50,6 @@ class GPTClient:
 
 =======
 >>>>>>> f06fe7e (added gpt_client.py and GPTClient class in this module)
-
-# -------------------------------------------
-# КЛАСС Summarizer
-# -------------------------------------------
-class Summarizer:
-    """
-    Класс для генерации краткого summary (поддерживает собственное хранение контекста при желании).
-    """
-
-    def __init__(self, model: str = MODEL_SUMMARIZER, temperature: float = TEMPERATURE):
-        self.model = model
-        self.temperature = temperature
-        # Отдельный контекст; можно сделать иначе, но, как правило, Summarizer —
-        # отдельный, более простой сценарий
-        self.conversation = [
-            {
-                "role": "system",
-                "content": (
-                    "You are a concise summarizer. Your task is to read long texts "
-                    "and provide short, clear summaries in English."
-                )
-            }
-        ]
-
-    def summarize(self, text: str, max_sentences: int = SUMMARY_MAX_SENTENCES) -> str:
-        """
-        Генерирует краткое summary исходного текста (до max_sentences предложений).
-        """
-        prompt = (
-            f"Please summarize the following text in no more than {max_sentences} sentences:\n\n{text}"
-        )
-
-        self.conversation.append({"role": "user", "content": prompt})
-
-        response = CLIENT.chat.completions.create(
-            model=self.model,
-            messages=self.conversation,
-            temperature=self.temperature
-        )
-
-        summary = response.choices[0].message.content.strip()
-        # Сохраняем ответ
-        self.conversation.append({"role": "assistant", "content": summary})
-        return summary
-
 
 # -------------------------------------------
 # КЛАСС ArticleGenerator

@@ -1,3 +1,4 @@
 /venv
 /articles
 /files
+.env

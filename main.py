@@ -15,10 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    topics_file = "files/topics.txt"
-    topics = load_topics_from_file(topics_file)
+    topics = load_topics_from_file(TOPICS_FILE)
     if not topics:
-        logger.warning("No topics found in '%s'.", topics_file)
+        logger.warning("No topics found in '%s'.", TOPICS_FILE)
         return
 
     advanced_client = GPTClient()

@@ -13,6 +13,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+TOPICS_FILE = "files/topics.txt"
+
 
 def main() -> None:
     topics = load_topics_from_file(TOPICS_FILE)

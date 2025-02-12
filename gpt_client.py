@@ -6,7 +6,7 @@ config = dotenv_values(".env")
 
 
 MODEL_ADVANCED = config["MODEL_ADVANCED"]
-TEMPERATURE = config["TEMPERATURE"]
+TEMPERATURE = float(config["TEMPERATURE"])
 OPENAI_API_KEY = config["OPENAI_API_KEY"]
 
 

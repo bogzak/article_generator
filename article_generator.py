@@ -135,8 +135,8 @@ class ArticleGenerator:
             sections = []
 
         # 2) (Опционально) Генерируем Introduction
-        introduction = self.generate_introduction(topic)  # если надо
-        logger.info("Introduction: %s", introduction)
+        # introduction = self.generate_introduction(topic)  # если надо
+        # logger.info("Introduction: %s", introduction)
 
         # 3) Генерируем текст для каждого Section
         body_parts = []
@@ -153,14 +153,14 @@ class ArticleGenerator:
         body_full = "\n".join(body_parts)
 
         # 4) (Опционально) Генерируем Conclusion
-        conclusion = self.generate_conclusion(topic)
-        logger.info("Conclusion: %s", conclusion)
+        # conclusion = self.generate_conclusion(topic)
+        # logger.info("Conclusion: %s", conclusion)
 
         # 5) Собираем всё
         article = (
             f"# {topic}\n\n"
-            f"## Introduction\n{introduction}\n\n"
+            # f"## Introduction\n{introduction}\n\n"
             f"{body_full}\n\n"
-            f"## Conclusion\n{conclusion}\n"
+            # f"## Conclusion\n{conclusion}\n"
         )
         return article

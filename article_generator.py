@@ -50,11 +50,11 @@ class ArticleGenerator:
         {{
           "outline": [
             {{
-              "title": "Section 1: Introduction",
+              "title": "Introduction",
               "subtopics": ["Background", "Purpose of Classification"]
             }},
             {{
-              "title": "Section 2: Key Points",
+              "title": "Key Points",
               "subtopics": ["Point A", "Point B"]
             }}
           ]
@@ -92,14 +92,17 @@ class ArticleGenerator:
 
             Section title: {section_title}
 
-            Please write a cohesive text covering the main section and the following subtopics:
+            Please write a cohesive and detailed text covering the main section and the following subtopics:
             {bullets}
-
+    
             Guidelines:
             - Merge all subtopics into one coherent piece of writing (not separate mini-chapters).
-            - Aim for 300-500 words total.
+            - **Add a clear and concise subheading for each subtopic within the section.**
+            - Aim for 300-500 words total for the *entire* section.
             - Maintain clarity, a formal yet approachable tone.
             - Avoid repeating the Introduction verbatim, but do provide context where needed.
+            - **Do not include a summary after each subtopic or at the end of the section.**
+            - **Focus on providing in-depth information and insights for each subtopic.**
             """
 
         return self.gpt.chat(user_prompt)

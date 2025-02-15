@@ -22,7 +22,7 @@ def save_article_to_file(article_text: str, topic: str, output_dir: str = "artic
         return
 
     safe_topic = re.sub(r'[\\/*?:"<>|, ]', "_", topic)
-    filename = f"{safe_topic}__5.md"
+    filename = f"{safe_topic}.md"
     filepath = os.path.join(output_dir, filename)
 
     try:

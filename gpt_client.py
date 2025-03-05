@@ -1,5 +1,6 @@
 from dotenv import dotenv_values
 from openai import OpenAI
+from utils import load_prompts
 
 
 config = dotenv_values(".env")
@@ -8,11 +9,12 @@ config = dotenv_values(".env")
 MODEL_ADVANCED = config["MODEL_ADVANCED"]
 TEMPERATURE = float(config["TEMPERATURE"])
 OPENAI_API_KEY = config["OPENAI_API_KEY"]
-
+SYSTEM_PROMPT = load_prompts("files/system_prompt_RU.txt")
 
 CLIENT = OpenAI(
     api_key=OPENAI_API_KEY
 )
+
 
 
 class GPTClient:
@@ -28,11 +30,7 @@ class GPTClient:
         self.conversation = [
             {
                 "role": "system",
-                "content": (
-                    "You are a professional English-language article writer. "
-                    "You create well-structured, detailed, and coherent articles. "
-                    "Use a clear, formal (but approachable) tone, and expand on key ideas when asked."
-                )
+                "content": SYSTEM_PROMPT
             }
         ]
 

@@ -9,7 +9,7 @@ config = dotenv_values(".env")
 MODEL_ADVANCED = config["MODEL_ADVANCED"]
 TEMPERATURE = float(config["TEMPERATURE"])
 OPENAI_API_KEY = config["OPENAI_API_KEY"]
-SYSTEM_PROMPT = load_prompts("files/system_prompt_RU.txt")
+SYSTEM_PROMPT = load_prompts("prompts/system_prompt_RU.txt")
 
 CLIENT = OpenAI(
     api_key=OPENAI_API_KEY

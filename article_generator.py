@@ -38,7 +38,7 @@ class ArticleGenerator:
 
     def generate_outline(self, topic: str) -> str:
         # чтение промпта из файла
-        template = load_prompts("files/outline_prompt_RU.txt")
+        template = load_prompts("prompts/outline_prompt_RU.txt")
         user_prompt = template.format(topic=topic)
 
         outline_raw = self.gpt.chat(user_prompt)
@@ -46,7 +46,7 @@ class ArticleGenerator:
         return outline_raw
 
     def generate_introduction(self, topic: str) -> str:
-        template = load_prompts("files/introduction_prompt_RU.txt")
+        template = load_prompts("prompts/introduction_prompt_RU.txt")
         user_prompt = template.format(topic=topic)
         return self.gpt.chat(user_prompt)
 
@@ -57,7 +57,7 @@ class ArticleGenerator:
         """
         # Можно оформить subtopics как список пунктов в prompt:
         bullets = "\n".join([f"- {s}" for s in subtopics])
-        template = load_prompts("files/subtopics_prompt_RU.txt")
+        template = load_prompts("prompts/subtopics_prompt_RU.txt")
         user_prompt = template.format(
             topic=topic,
             section_title=section_title,
@@ -67,7 +67,7 @@ class ArticleGenerator:
         return self.gpt.chat(user_prompt)
 
     def generate_conclusion(self, topic: str) -> str:
-        template = load_prompts("files/conclusion_prompt_RU.txt")
+        template = load_prompts("prompts/conclusion_prompt_RU.txt")
         user_prompt = template.format(topic=topic)
         return self.gpt.chat(user_prompt)
 

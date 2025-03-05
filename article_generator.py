@@ -2,6 +2,7 @@ import re
 import json
 import logging
 
+from utils import load_prompts
 from gpt_client import GPTClient
 
 
@@ -36,47 +37,17 @@ class ArticleGenerator:
         return outline  # Это список объектов { "title": str, "subtopics": list[str] }
 
     def generate_outline(self, topic: str) -> str:
-        user_prompt = (
-            f"""
-        You are an assistant that must produce a valid JSON outline for an article on "{topic}".
+        # чтение промпта из файла
+        template = load_prompts("files/outline_prompt_RU.txt")
+        user_prompt = template.format(topic=topic)
 
-        Return ONLY a JSON object with a single key "outline", whose value is an array. 
-        Each element in this array is an object with:
-        - "title": a string identifying a main section
-        - "subtopics": an array of strings, each describing a subtopic
-
-        No additional commentary or code fences. Example:
-
-        {{
-          "outline": [
-            {{
-              "title": "Introduction",
-              "subtopics": ["Background", "Purpose of Classification"]
-            }},
-            {{
-              "title": "Key Points",
-              "subtopics": ["Point A", "Point B"]
-            }}
-          ]
-        }}
-
-        Now generate that JSON for the topic: {topic}.
-        """
-        )
         outline_raw = self.gpt.chat(user_prompt)
         logging.info(outline_raw)
         return outline_raw
 
     def generate_introduction(self, topic: str) -> str:
-        user_prompt = (
-            f"Topic: '{topic}'\n\n"
-            "Write an Introduction that:\n"
-            "1. Briefly hooks the reader with the importance or relevance of the topic.\n"
-            "2. Transitions smoothly into what will be covered in the article.\n"
-            "3. Avoids simply listing the outline sections verbatim.\n"
-            "4. Maintains a professional yet accessible tone.\n"
-            "Length guide: aim for ~150-200 words."
-        )
+        template = load_prompts("files/introduction_prompt_RU.txt")
+        user_prompt = template.format(topic=topic)
         return self.gpt.chat(user_prompt)
 
     def generate_section_with_subtopics(self, topic: str, section_title: str, subtopics: list[str]) -> str:
@@ -86,36 +57,18 @@ class ArticleGenerator:
         """
         # Можно оформить subtopics как список пунктов в prompt:
         bullets = "\n".join([f"- {s}" for s in subtopics])
-
-        user_prompt = f"""
-            Topic: {topic}
-
-            Section title: {section_title}
-
-            Please write a cohesive and detailed text covering the main section and the following subtopics:
-            {bullets}
-    
-            Guidelines:
-            - Merge all subtopics into one coherent piece of writing (not separate mini-chapters).
-            - **Add a clear and concise subheading for each subtopic within the section.**
-            - Aim for 300-500 words total for the *entire* section.
-            - Maintain clarity, a formal yet approachable tone.
-            - Avoid repeating the Introduction verbatim, but do provide context where needed.
-            - **Do not include a summary after each subtopic or at the end of the section.**
-            - **Focus on providing in-depth information and insights for each subtopic.**
-            """
+        template = load_prompts("files/subtopics_prompt_RU.txt")
+        user_prompt = template.format(
+            topic=topic,
+            section_title=section_title,
+            bullets=bullets
+        )
 
         return self.gpt.chat(user_prompt)
 
     def generate_conclusion(self, topic: str) -> str:
-        user_prompt = (
-            f"Topic: '{topic}'\n\n"
-            "Based on the above content, write a **Conclusion** that:\n"
-            "1. Restates the core topic in a succinct way.\n"
-            "2. Summarizes the major insights or takeaways.\n"
-            "3. Gives a closing thought or call-to-action (if relevant).\n"
-            "4. Maintains a professional tone, about ~100 words.\n"
-        )
+        template = load_prompts("files/conclusion_prompt_RU.txt")
+        user_prompt = template.format(topic=topic)
         return self.gpt.chat(user_prompt)
 
     @staticmethod

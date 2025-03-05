@@ -45,3 +45,8 @@ def load_topics_from_file(filepath: str) -> list:
             if line:
                 topics.append(line)
     return topics
+
+
+def load_prompts(filepath: str) -> str:
+    with open(filepath, "r", encoding="utf-8") as file:
+        return file.read()

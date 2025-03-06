@@ -11,11 +11,12 @@ logger = logging.getLogger(__name__)
 
 
 class ArticleGenerator:
-    def __init__(self, gpt: GPTClient):
+    def __init__(self, gpt: GPTClient, language: str):
         """
         Сюда можно передать только advanced_client, если summarizer временно не нужен.
         """
         self.gpt = gpt
+        self.language = language
 
     @staticmethod
     def parse_outline_json(outline_text: str):
@@ -38,7 +39,7 @@ class ArticleGenerator:
 
     def generate_outline(self, topic: str) -> str:
         # чтение промпта из файла
-        template = load_prompts("prompts/outline_prompt_RU.txt")
+        template = load_prompts(f"prompts/outline_prompt_{self.language}.txt")
         user_prompt = template.format(topic=topic)
 
         outline_raw = self.gpt.chat(user_prompt)
@@ -46,7 +47,7 @@ class ArticleGenerator:
         return outline_raw
 
     def generate_introduction(self, topic: str) -> str:
-        template = load_prompts("prompts/introduction_prompt_RU.txt")
+        template = load_prompts(f"prompts/introduction_prompt_{self.language}.txt")
         user_prompt = template.format(topic=topic)
         return self.gpt.chat(user_prompt)
 
@@ -57,7 +58,7 @@ class ArticleGenerator:
         """
         # Можно оформить subtopics как список пунктов в prompt:
         bullets = "\n".join([f"- {s}" for s in subtopics])
-        template = load_prompts("prompts/subtopics_prompt_RU.txt")
+        template = load_prompts(f"prompts/subtopics_prompt_{self.language}.txt")
         user_prompt = template.format(
             topic=topic,
             section_title=section_title,
@@ -67,7 +68,7 @@ class ArticleGenerator:
         return self.gpt.chat(user_prompt)
 
     def generate_conclusion(self, topic: str) -> str:
-        template = load_prompts("prompts/conclusion_prompt_RU.txt")
+        template = load_prompts(f"prompts/conclusion_prompt_{self.language}.txt")
         user_prompt = template.format(topic=topic)
         return self.gpt.chat(user_prompt)
 

@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 TOPICS_FILE = "files/topics.txt"
+LANGUAGE = "RU"
 
 
 def main() -> None:
@@ -24,7 +25,7 @@ def main() -> None:
 
     advanced_client = GPTClient()
     # summarizer = Summarizer(model=MODEL_SUMMARIZER, temperature=TEMPERATURE)
-    article_generator = ArticleGenerator(advanced_client)
+    article_generator = ArticleGenerator(gpt=advanced_client, language=LANGUAGE)
 
     for topic in topics:
         logger.info("Generating article for topic: %s", topic)

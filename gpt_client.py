@@ -16,7 +16,6 @@ CLIENT = OpenAI(
 )
 
 
-
 class GPTClient:
     """
     Хранит и аккумулирует всю переписку в self.conversation,

@@ -1,6 +1,7 @@
 import re
 import json
 import logging
+from pydantic import BaseModel
 
 from utils import load_prompts
 from gpt_client import GPTClient
@@ -8,6 +9,14 @@ from gpt_client import GPTClient
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
+
+class OutlineItem(BaseModel):
+    title: str
+    subtopics: list[str]
+
+class OutlineResponse(BaseModel):
+    outline: list[OutlineItem]
 
 
 class ArticleGenerator:
@@ -38,13 +47,21 @@ class ArticleGenerator:
         return outline  # Это список объектов { "title": str, "subtopics": list[str] }
 
     def generate_outline(self, topic: str) -> str:
-        # чтение промпта из файла
+        """
+        Generates a structured JSON outline for the given topic using OpenAI's Structured Outputs approach.
+        """
+        # Reading the prompt template
         template = load_prompts(f"prompts/outline_prompt_{self.language}.txt")
         user_prompt = template.format(topic=topic)
 
-        outline_raw = self.gpt.chat(user_prompt)
-        logging.info(outline_raw)
-        return outline_raw
+        # Using OpenAI's Structured Outputs to ensure JSON format
+        response = self.gpt.chat_with_format(
+            user_prompt,
+            response_format=OutlineResponse
+        )
+
+        # Convert the structured response back to JSON for further use
+        return json.dumps(response, indent=2, ensure_ascii=False)
 
     def generate_introduction(self, topic: str) -> str:
         template = load_prompts(f"prompts/introduction_prompt_{self.language}.txt")

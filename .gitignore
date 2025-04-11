@@ -4,3 +4,17 @@
 /idea
 /prompts
 .env
+.idea/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore test-related files
+tests/__pycache__/
+
+# Ignore generated articles in the 'done' folder
+articles/done/
+
+# Ignore test articles
+test_articles/

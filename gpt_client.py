@@ -1,6 +1,7 @@
 from dotenv import dotenv_values
 from openai import OpenAI
 from utils import load_prompts
+from pydantic import BaseModel
 
 
 config = dotenv_values(".env")
@@ -54,3 +55,29 @@ class GPTClient:
         self.conversation.append({"role": "assistant", "content": assistant_message})
 
         return assistant_message
+
+    def chat_with_format(self, user_prompt: str, response_format: BaseModel) -> BaseModel:
+        """
+        Similar to `chat`, but ensures the response adheres to a specific format using Pydantic models.
+        """
+        # Add user message to the conversation
+        self.conversation.append({"role": "user", "content": user_prompt})
+
+        # Call the OpenAI API
+        response = CLIENT.chat.completions.create(
+            model=self.model,
+            messages=self.conversation,
+            temperature=self.temperature
+        )
+
+        # Extract the assistant's message
+        assistant_message = response.choices[0].message.content.strip()
+
+        # Save the assistant's response in the conversation
+        self.conversation.append({"role": "assistant", "content": assistant_message})
+
+        # Parse the response into the specified format
+        try:
+            return response_format.parse_raw(assistant_message)
+        except Exception as e:
+            raise ValueError(f"Failed to parse response into the specified format: {e}")

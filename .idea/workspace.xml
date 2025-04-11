@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ab4fe79-e261-43e9-939e-ad438ac3860e" name="Changes" comment="" />
+    <list default="true" id="1ab4fe79-e261-43e9-939e-ad438ac3860e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,16 +32,19 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.gpt_client.executor": "Run",
     "Python.main.executor": "Run",
     "Python.tests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/pycharm_projects/openai/article_writer",
+    "last_opened_file_path": "D:/pycharm_projects/telegram/pbn_tools",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\pycharm_projects\openai\article_writer\articles\done" />
+      <recent name="D:\pycharm_projects\openai\article_writer\prompts" />
       <recent name="D:\pycharm_projects\openai\article_writer" />
       <recent name="D:\pycharm_projects\openai\article_writer\pythonProject" />
     </key>

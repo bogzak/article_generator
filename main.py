@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 TOPICS_FILE = "files/topics.txt"
-LANGUAGE = "RU"
+LANGUAGE = "EN"
 
 
 def main() -> None:

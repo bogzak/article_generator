@@ -170,8 +170,8 @@ class ArticleGenerator:
             return f"# {topic}\n\nНе удалось сгенерировать статью по теме."
 
         # Флаги для определения, нужно ли генерировать введение и заключение
-        with_introduction = True
-        with_conclusion = True
+        with_introduction = False
+        with_conclusion = False
 
         body_parts = []
         

@@ -1,13 +1,15 @@
 from dotenv import dotenv_values
 from openai import OpenAI
+import logging
 
 
+logger = logging.getLogger(__name__)
 config = dotenv_values(".env")
 
 
 MODEL_SUMMARIZER = config["MODEL_SUMMARIZER"]
-TEMPERATURE = config["TEMPERATURE"]
-SUMMARY_MAX_SENTENCES = config["SUMMARY_MAX_SENTENCES"]
+TEMPERATURE = float(config["TEMPERATURE"])
+SUMMARY_MAX_SENTENCES = int(config["SUMMARY_MAX_SENTENCES"])
 OPENAI_API_KEY = config["OPENAI_API_KEY"]
 
 
@@ -23,7 +25,7 @@ class Summarizer:
 
     def __init__(self, model: str = MODEL_SUMMARIZER, temperature: float = TEMPERATURE):
         self.model = model
-        self.temperature = temperature
+        self.temperature = float(temperature)  # Приводим к float (если строка)
         # Отдельный контекст; можно сделать иначе, но, как правило, Summarizer —
         # отдельный, более простой сценарий
         self.conversation = [
@@ -46,13 +48,19 @@ class Summarizer:
 
         self.conversation.append({"role": "user", "content": prompt})
 
-        response = CLIENT.chat.completions.create(
-            model=self.model,
-            messages=self.conversation,
-            temperature=self.temperature
-        )
+        try:
+            response = CLIENT.chat.completions.create(
+                model=self.model,
+                messages=self.conversation,
+                temperature=self.temperature
+            )
 
-        summary = response.choices[0].message.content.strip()
-        # Сохраняем ответ
-        self.conversation.append({"role": "assistant", "content": summary})
-        return summary
+            summary = response.choices[0].message.content.strip()
+            # Сохраняем ответ
+            self.conversation.append({"role": "assistant", "content": summary})
+            return summary
+            
+        except Exception as e:
+            error_msg = f"Неожиданная ошибка при обращении к OpenAI API: {str(e)}"
+            logger.error(error_msg)
+            raise Exception(error_msg)

@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1ab4fe79-e261-43e9-939e-ad438ac3860e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/article_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/article_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gpt_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/gpt_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_project.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +40,9 @@
     "Python.tests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/pycharm_projects/telegram/pbn_tools",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">

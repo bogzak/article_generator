@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from gpt_client import GPTClient
 from summarizer import Summarizer
@@ -23,16 +24,32 @@ def main() -> None:
         logger.warning("No topics found in '%s'.", TOPICS_FILE)
         return
 
-    advanced_client = GPTClient()
-    # summarizer = Summarizer(model=MODEL_SUMMARIZER, temperature=TEMPERATURE)
-    article_generator = ArticleGenerator(gpt=advanced_client, language=LANGUAGE)
+    logger.info(f"Loaded {len(topics)} topics for article generation")
 
-    for topic in topics:
-        logger.info("Generating article for topic: %s", topic)
-        article_text = article_generator.generate_article(topic)
-        save_article_to_file(article_text, topic)
+    try:
+        advanced_client = GPTClient()
+        # Создаем summarizer только если он понадобится
+        # summarizer = Summarizer()
+        article_generator = ArticleGenerator(gpt=advanced_client, language=LANGUAGE)
 
-    logger.info("All articles have been generated successfully!")
+        for i, topic in enumerate(topics, 1):
+            logger.info(f"[{i}/{len(topics)}] Starting article generation for topic: {topic}")
+            logger.info(f"Step 1: Generating custom system prompt for topic: {topic}")
+            
+            try:
+                article_text = article_generator.generate_article(topic)
+                save_article_to_file(article_text, topic)
+                logger.info(f"Article successfully generated for topic: {topic}")
+            except Exception as e:
+                logger.error(f"Failed to generate article for topic '{topic}': {e}")
+                logger.debug(traceback.format_exc())
+                # Продолжаем со следующей темой
+                continue
+
+        logger.info("Article generation completed!")
+    except Exception as e:
+        logger.error(f"Critical error in article generation process: {e}")
+        logger.debug(traceback.format_exc())
 
 
 if __name__ == "__main__":

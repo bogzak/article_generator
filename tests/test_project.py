@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from article_generator import ArticleGenerator
+from article_generator import ArticleGenerator, OutlineResponse, OutlineItem
 from gpt_client import GPTClient
 from summarizer import Summarizer
 from utils import load_prompts, save_article_to_file
@@ -11,12 +11,11 @@ class TestArticleGenerator(unittest.TestCase):
         self.generator = ArticleGenerator(gpt=self.mock_gpt, language="RU")
 
     def test_generate_outline(self):
-        self.mock_gpt.chat_with_format.return_value = {
-            "outline": [
-                {"title": "Введение", "subtopics": ["История", "Цель"]},
-                {"title": "Основная часть", "subtopics": ["Тема A", "Тема B"]}
-            ]
-        }
+        mock_response = OutlineResponse(outline=[
+            OutlineItem(title="Введение", subtopics=["История", "Цель"]),
+            OutlineItem(title="Основная часть", subtopics=["Тема A", "Тема B"])
+        ])
+        self.mock_gpt.chat_with_format.return_value = mock_response
         outline = self.generator.generate_outline("Тестовая тема")
         self.assertIn("outline", outline)
 
